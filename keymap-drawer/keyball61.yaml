@@ -6,7 +6,7 @@ layers:
   - {t: '8', s: '*'}
   - {t: '9', s: (}
   - {t: '0', s: )}
-  - {t: '$$mdi:backspace$$', type: backspace}
+  - {t: '$$mdi:toggle-switch$$', h: '$$mdi:bluetooth$$', s: '$$mdi:usb$$'}
   - Y
   - U
   - I
@@ -18,18 +18,18 @@ layers:
   - K
   - L
   - {t: ;, s: ':'}
-  - {t: '''', s: '"'}
-  - {t: '4', s: $}
+  - {t: '$$mdi:keyboard-return$$', type: enter}
+  - NUM
   - N
   - M
   - {t: ',', s: <}
   - {t: ., s: '>'}
   - {t: /, s: '?'}
   - $$mdi:apple-keyboard-shift$$
-  - {t: '2', s: '@'}
-  - {t: '3', s: '#'}
-  - $$mdi:apple-keyboard-option$$
-  - $$mdi:backspace-reverse-outline$$
+  - $$mdi:keyboard-space$$
+  - SYM
+  - SCROLL
+  - FUN
   NUM:
   - {t: '1', s: '!'}
   - {t: '2', s: '@'}
@@ -49,7 +49,7 @@ layers:
   - $$mdi:arrow-right-bold$$
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: '$$mdi:transfer$$', type: trans}
+  - {type: held}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
@@ -87,7 +87,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: '$$mdi:transfer$$', type: trans}
+  - {type: held}
   - FUN
   - {t: '$$mdi:transfer$$', type: trans}
   FUN:
@@ -117,9 +117,9 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: '$$mdi:transfer$$', type: trans}
+  - {type: held alternate}
+  - {type: held alternate}
   - {type: held}
-  - {t: '$$mdi:transfer$$', type: trans}
   MOUSE:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
@@ -136,9 +136,9 @@ layers:
   - PgUp
   - $$mdi:mouse-left-click-outline$$
   - {t: '$$mdi:transfer$$', type: trans}
-  - $$mdi:mouse-right-click-outline$$
+  - $$mdi:mouse-left-click-outline$$
   - $$mdi:mouse-scroll-wheel$$
-  - {t: '$$mdi:transfer$$', type: trans}
+  - $$mdi:mouse-right-click-outline$$
   - {t: '$$mdi:transfer$$', type: trans}
   - PgDn
   - {t: '$$mdi:transfer$$', type: trans}
@@ -178,7 +178,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: '$$mdi:transfer$$', type: trans}
+  - {type: held}
   - {t: '$$mdi:transfer$$', type: trans}
   SNIPE:
   - {t: '$$mdi:transfer$$', type: trans}
