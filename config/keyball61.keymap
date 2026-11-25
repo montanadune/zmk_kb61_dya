@@ -56,7 +56,7 @@
 };
 
 / {
-    /* OPT(1) + NUM(2) 同時押しで SYM(3) へ移動（片手でも全記号にアクセス可能） */
+    /* OPT(Space長押し) + NUM(Enter長押し) の同時押しで SYM(グリーンカエル) へ移動 */
     conditional_layers {
         compatible = "zmk,conditional-layers";
         tri_layer {
@@ -68,75 +68,84 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* レイヤー0：Froggy Base（右手ミラー・母音が内側人差し指〜親指に集中） */
+        /* レイヤー0：遊舎工房 Froggy Base（右手ミラー配置） */
         default_layer {
             label = "FROGGY";
             bindings = <
-                       /* 1段目: ESC   TAB   DEL   BSPC  -     = */
-                       &kp ESC    &kp TAB   &kp DEL   &kp BSPC  &kp MINUS &kp JP_EQUAL
-                       /* 2段目(Froggy上段): W     R     S     T     H     (予備:半/全) */
-                       &kp W      &kp R     &kp S     &kp T     &kp H     &kp JP_HANZEN
-                       /* 3段目(Froggy中段): O     I     N     D     L     (予備:Enter) */
-                       &kp O      &kp I     &kp N     &kp D     &kp L     &kp ENTER
-            /* 親指左:Shift */
-            &kp LSHFT  /* 4段目(Froggy下段): U     E     A     C     M     (予備:Ctrl) */
-                       &kp U      &kp E     &kp A     &kp C     &kp M     &kp RCTRL
-                       /* 親指: NUM(Enter長押し) | OPT(Space長押し) | 右下1: .(長押しSYM) | 右下2: ,(長押しFUN) */
-                       &lt NUM ENTER &lt OPT SPACE              &lt SYM DOT &lt FUN COMMA
+                       /* 1段目: {          <          (          [          ;          Ctrl+Z */
+                       &kp JP_LBRACE &kp LESS_THAN &kp JP_LPAREN &kp JP_LBRACKET &kp SEMI &kp LC(Z)
+                       /* 2段目: F          A          R          K          P          KANA(半/全) */
+                       &kp F      &kp A      &kp R      &kp K      &kp P      &kp JP_HANZEN
+                       /* 3段目: O          E          H          T          D          BSPC */
+                       &kp O      &kp E      &kp H      &kp T      &kp D      &kp BSPC
+            /* 親指左:Space */
+            &kp SPACE  /* 4段目: U          I          N          S          Y          RSHFT */
+                       &kp U      &kp I      &kp N      &kp S      &kp Y      &kp RIGHT_SHIFT
+                       /* 親指: NUM(Enter長押し) | OPT(Space長押し) | 右下1: SYM(Win) | 右下2: Ctrl(Alt) */
+                       &lt NUM ENTER &lt OPT SPACE              &lt SYM LGUI &mt RCTRL RIGHT_ALT
             >;
         };
 
-        /* レイヤー1：Froggy OPT（Space長押し中：残り11文字 Q,K,G,B,Z,Y,V,F,P,X,J） */
+        /* レイヤー1：遊舎工房 Froggy OPT（ピンクカエル：Space長押し中） */
         opt_layer {
             label = "OPT";
             bindings = <
-                       &kp F2     &kp F5    &kp F7    &kp F10   &kp UP    &kp PG_UP
-                       /* Froggy OPT上段: Q     K     G     B     Z     ← */
-                       &kp Q      &kp K     &kp G     &kp B     &kp Z     &kp LEFT
-                       /* Froggy OPT中段: Y     V     F     P     X     ↓ */
-                       &kp Y      &kp V     &kp F     &kp P     &kp X     &kp DOWN
-            &kp LALT   /* Froggy OPT下段: J     '     "     ;     :     → */
-                       &kp J      &kp JP_QUOTE &kp JP_DQUOTE &kp SEMI &kp JP_COLON &kp RIGHT
-                       &trans     &trans                        &kp SLASH &kp QUESTION
+                       /* 1段目: }          >          )          ]          :          ESC */
+                       &kp JP_RBRACE &kp GREATER_THAN &kp JP_RPAREN &kp JP_RBRACKET &kp JP_COLON &kp ESC
+                       /* 2段目: TAB        '          B          M          J          EISU(半/全) */
+                       &kp TAB    &kp JP_QUOTE &kp B    &kp M      &kp J      &kp JP_HANZEN
+                       /* 3段目: Q          Z          L          C          V          . */
+                       &kp Q      &kp Z      &kp L      &kp C      &kp V      &kp DOT
+            /* 親指左:ESC */
+            &kp ESC    /* 4段目: DEL        -          W          G          X          , */
+                       &kp DEL    &kp MINUS  &kp W      &kp G      &kp X      &kp COMMA
+                       &trans     &trans                        &kp LG(D)  &kp LC(S)
             >;
         };
 
-        /* レイヤー2：Froggy NUM（Enter長押し中：右手テンキー配置） */
+        /* レイヤー2：遊舎工房 Froggy NUM（オレンジカエル：Enter長押し中） */
         number_layer {
             label = "NUM";
             bindings = <
-                       &kp F1     &kp F3    &kp F4    &kp F6    &kp HOME  &kp END
-                       /* テンキー上段:    7     8     9     /     *     BSPC */
-                       &kp N7     &kp N8    &kp N9    &kp SLASH &kp JP_ASTERISK &kp BSPC
-                       /* テンキー中段:    4     5     6     -     +     ENTER */
-                       &kp N4     &kp N5    &kp N6    &kp MINUS &kp JP_PLUS &kp ENTER
-            &kp LGUI   /* テンキー下段:    1     2     3     0     .     = */
-                       &kp N1     &kp N2    &kp N3    &kp N0    &kp DOT   &kp JP_EQUAL
-                       &trans     &trans                        &trans    &trans
+                       /* 1段目: (空き)     END        HOME       FUNC       (空き)     (空き) */
+                       &trans     &kp END    &kp HOME   &sl FUN    &trans     &trans
+                       /* 2段目: -          9          8          7          *          (空き) */
+                       &kp MINUS  &kp N9     &kp N8     &kp N7     &kp JP_ASTERISK &trans
+                       /* 3段目: +          6          5          4          /          . */
+                       &kp JP_PLUS &kp N6    &kp N5     &kp N4     &kp SLASH  &kp DOT
+            /* Ctrl+Shift+F1 */
+            &kp LC(LS(F1)) /* 4段目: 3      2          1          0          (空き)     , */
+                       &kp N3     &kp N2     &kp N1     &kp N0     &trans     &kp COMMA
+                       &trans     &trans                        &trans     &trans
             >;
         };
 
-        /* レイヤー3：Froggy SYM（.長押し または Space+Enter同時押し：記号類） */
+        /* レイヤー3：遊舎工房 Froggy SYM（グリーンカエル：右下1長押し または Space+Enter同時押し） */
         symbol_layer {
             label = "SYM";
             bindings = <
-                       &trans     &trans    &trans    &trans    &trans    &trans
-                       &kp EXCLAMATION &kp JP_AT &kp HASH &kp DOLLAR &kp PERCENT &kp JP_CARET
-                       &kp JP_AMPERSAND &kp JP_LPAREN &kp JP_RPAREN &kp JP_LBRACKET &kp JP_RBRACKET &kp JP_YEN
-            &trans     &kp JP_UNDERSCORE &kp JP_LBRACE &kp JP_RBRACE &kp LESS_THAN &kp GREATER_THAN &kp JP_PIPE
-                       &trans     &trans                        &trans    &trans
+                       /* 1段目: ^          PgDn       PgUp       (空き)     `          INS */
+                       &kp JP_CARET &kp PG_DN &kp PG_UP &trans     &kp JP_BACKQUOTE &kp INS
+                       /* 2段目: %          ?          =          #          ¥          (空き) */
+                       &kp PERCENT &kp QUESTION &kp JP_EQUAL &kp HASH &kp JP_YEN &trans
+                       /* 3段目: |          !          @          ↑          $          (空き) */
+                       &kp JP_PIPE &kp EXCLAMATION &kp JP_AT &kp UP &kp DOLLAR &trans
+            /* 親指左:~ */
+            &kp JP_TILDE /* 4段目: &        _          →          ↓          ←          CAPS */
+                       &kp JP_AMPERSAND &kp JP_UNDERSCORE &kp RIGHT &kp DOWN &kp LEFT &kp CAPS
+                       &trans     &trans                        &kp PRINTSCREEN &trans
             >;
         };
 
-        /* レイヤー4：FUN・Bluetooth・Windowsショートカット（,長押し中） */
+        /* レイヤー4：遊舎工房 Froggy FUNC（NUMレイヤーのFUNCキーを1回タップ後に有効） */
         function_layer {
             label = "FUN";
             bindings = <
-                       &kp F1      &kp F2        &kp F3          &kp F4        &kp F5   &kp F6
-                       &kp F7      &kp F8        &kp F9          &kp F10       &kp F11  &kp F12
-                       &kp LC(Z)   &kp LC(X)     &kp LC(C)       &kp LC(V)     &kp LC(A) &trans
-            &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2    &trans        &trans   &trans
-                       &trans      &trans                                      &trans   &trans
+                       &trans      &trans        &trans          &trans        &trans   &trans
+                       &trans      &kp F9        &kp F8          &kp F7        &trans   &trans
+                       &kp F12     &kp F6        &kp F5          &kp F4        &trans   &trans
+            &trans     &kp F11     &kp F3        &kp F2          &kp F1        &kp F10  &trans
+                       &bt BT_CLR  &bt BT_SEL 0                                &bt BT_SEL 1 &bt BT_SEL 2
             >;
         };
 
@@ -152,7 +161,7 @@
             >;
         };
 
-        /* レイヤー6：スクロール（マウスレイヤー中に中指位置を長押し） */
+        /* レイヤー6：スクロール（マウスレイヤー中にH位置を長押し） */
         scroll_layer {
             label = "SCROLL";
             bindings = <
