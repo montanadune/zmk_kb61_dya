@@ -1,10 +1,11 @@
 #define DEFAULT 0
-#define NUM     1
-#define SYM     2
-#define FUN     3
-#define MOUSE   4
-#define SCROLL  5
-#define SNIPE   6
+#define OPT     1
+#define NUM     2
+#define SYM     3
+#define FUN     4
+#define MOUSE   5
+#define SCROLL  6
+#define SNIPE   7
 
 #include <behaviors/mouse_keys.dtsi>
 #include <behaviors/runtime_macro.dtsi>
@@ -18,23 +19,22 @@
 #include <dt-bindings/zmk/pointing.h>
 
 // OS設定を日本語キーボードのまま使用するための変換定義
-
 #define JP_DQUOTE       AT                // "
 #define JP_AMPERSAND    CARET             // &
 #define JP_QUOTE        AMPERSAND         // '
 #define JP_EQUAL        UNDER             // =
 #define JP_CARET        EQUAL             // ^
-#define JP_YEN          0x89              // ¥ (長音 ー)
+#define JP_YEN          0x89              // ¥
 #define JP_PLUS         COLON             // +
 #define JP_TILDE        PLUS              // ~
 #define JP_PIPE         LS(0x89)          // |
-#define JP_AT           LEFT_BRACKET      // @ (濁点 ゛)
+#define JP_AT           LEFT_BRACKET      // @
 #define JP_COLON        SINGLE_QUOTE      // :
 #define JP_ASTERISK     DOUBLE_QUOTES     // *
 #define JP_BACKQUOTE    LEFT_BRACE        // `
 #define JP_UNDERSCORE   LS(0x87)          // _
-#define JP_LBRACKET     RIGHT_BRACKET     // [ (半濁点 ゜)
-#define JP_RBRACKET     BACKSLASH         // ] (む)
+#define JP_LBRACKET     RIGHT_BRACKET     // [
+#define JP_RBRACKET     BACKSLASH         // ]
 #define JP_LPAREN       ASTERISK          // (
 #define JP_RPAREN       LEFT_PARENTHESIS  // )
 #define JP_LBRACE       RIGHT_BRACE       // {
@@ -42,10 +42,9 @@
 #define JP_KANA         LANGUAGE_1        // かな
 #define JP_EISU         LANGUAGE_2        // 英数
 #define JP_HANZEN       GRAVE             // 半角/全角
-#define JP_RO           0x87              // ろ
 
 &lt {
-    tapping-term-ms = <240>;
+    tapping-term-ms = <210>;
     flavor = "balanced";
     quick-tap-ms = <150>;
 };
@@ -57,80 +56,91 @@
 };
 
 / {
-    /* Layer 1 (左手かな) + Layer 2 (数字・記号) の同時押しで Layer 3 (FUN/矢印) へ移動 */
+    /* OPT(1) + NUM(2) 同時押しで SYM(3) へ移動（片手でも全記号にアクセス可能） */
     conditional_layers {
         compatible = "zmk,conditional-layers";
         tri_layer {
-            if-layers = <NUM SYM>;
-            then-layer = <FUN>;
+            if-layers = <OPT NUM>;
+            then-layer = <SYM>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        /* レイヤー0：基本（右手側JISかな＋親指レイヤー＆モディファイア） */
+        /* レイヤー0：Froggy Base（右手ミラー・母音が内側人差し指〜親指に集中） */
         default_layer {
-            label = "KANA_R";
+            label = "FROGGY";
             bindings = <
-                       /* ぬ(6)    ふ(7)    あ(8)    う(9)    え(0)     お(-) */
-                       &kp N6     &kp N7   &kp N8   &kp N9   &kp N0    &kp MINUS
-                       /* ん(Y)    な(U)    に(I)    ら(O)    せ(P)     ゛(@) */
-                       &kp Y      &kp U    &kp I    &kp O    &kp P     &kp JP_AT
-                       /* く(H)    う(J)    し(K)    わ(L)    れ(;)     け(:) */
-                       &kp H      &kp J    &kp K    &kp L    &kp SEMI  &kp JP_COLON
-            /* ゜([) */
-            &kp JP_LBRACKET &kp N &kp M    &kp COMMA &kp DOT &kp SLASH &mt RIGHT_SHIFT JP_RO
-                       /* 親指左: Enter(長押しL2) | 親指中: Space(長押しL1) | 右下1: BS | 右下2: Tab */
-                       &lt SYM ENTER  &lt NUM SPACE          &kp BSPC  &kp TAB
+                       /* 1段目: ESC   TAB   DEL   BSPC  -     = */
+                       &kp ESC    &kp TAB   &kp DEL   &kp BSPC  &kp MINUS &kp JP_EQUAL
+                       /* 2段目(Froggy上段): W     R     S     T     H     (予備:半/全) */
+                       &kp W      &kp R     &kp S     &kp T     &kp H     &kp JP_HANZEN
+                       /* 3段目(Froggy中段): O     I     N     D     L     (予備:Enter) */
+                       &kp O      &kp I     &kp N     &kp D     &kp L     &kp ENTER
+            /* 親指左:Shift */
+            &kp LSHFT  /* 4段目(Froggy下段): U     E     A     C     M     (予備:Ctrl) */
+                       &kp U      &kp E     &kp A     &kp C     &kp M     &kp RCTRL
+                       /* 親指: NUM(Enter長押し) | OPT(Space長押し) | 右下1: .(長押しSYM) | 右下2: ,(長押しFUN) */
+                       &lt NUM ENTER &lt OPT SPACE              &lt SYM DOT &lt FUN COMMA
             >;
         };
 
-        /* レイヤー1：左手側JISかな（Space長押し中） */
+        /* レイヤー1：Froggy OPT（Space長押し中：残り11文字 Q,K,G,B,Z,Y,V,F,P,X,J） */
+        opt_layer {
+            label = "OPT";
+            bindings = <
+                       &kp F2     &kp F5    &kp F7    &kp F10   &kp UP    &kp PG_UP
+                       /* Froggy OPT上段: Q     K     G     B     Z     ← */
+                       &kp Q      &kp K     &kp G     &kp B     &kp Z     &kp LEFT
+                       /* Froggy OPT中段: Y     V     F     P     X     ↓ */
+                       &kp Y      &kp V     &kp F     &kp P     &kp X     &kp DOWN
+            &kp LALT   /* Froggy OPT下段: J     '     "     ;     :     → */
+                       &kp J      &kp JP_QUOTE &kp JP_DQUOTE &kp SEMI &kp JP_COLON &kp RIGHT
+                       &trans     &trans                        &kp SLASH &kp QUESTION
+            >;
+        };
+
+        /* レイヤー2：Froggy NUM（Enter長押し中：右手テンキー配置） */
         number_layer {
-            label = "KANA_L";
+            label = "NUM";
             bindings = <
-                       /* た(1)    て(2)    い(3)    す(4)    か(5)     ほ(-) */
-                       &kp N1     &kp N2   &kp N3   &kp N4   &kp N5    &kp MINUS
-                       /* つ(Q)    さ(W)    そ(E)    ひ(R)    こ(T)     へ(^) */
-                       &kp Q      &kp W    &kp E    &kp R    &kp T     &kp JP_CARET
-                       /* ち(A)    と(S)    し(D)    は(F)    き(G)     む(]) */
-                       &kp A      &kp S    &kp D    &kp F    &kp G     &kp JP_RBRACKET
-            /* ゛(@) */
-            &kp JP_AT  &kp Z      &kp X    &kp C    &kp V    &kp B     &mt RIGHT_SHIFT JP_RO
-                       &trans     &trans                     &kp DEL   &kp ESC
+                       &kp F1     &kp F3    &kp F4    &kp F6    &kp HOME  &kp END
+                       /* テンキー上段:    7     8     9     /     *     BSPC */
+                       &kp N7     &kp N8    &kp N9    &kp SLASH &kp JP_ASTERISK &kp BSPC
+                       /* テンキー中段:    4     5     6     -     +     ENTER */
+                       &kp N4     &kp N5    &kp N6    &kp MINUS &kp JP_PLUS &kp ENTER
+            &kp LGUI   /* テンキー下段:    1     2     3     0     .     = */
+                       &kp N1     &kp N2    &kp N3    &kp N0    &kp DOT   &kp JP_EQUAL
+                       &trans     &trans                        &trans    &trans
             >;
         };
 
-        /* レイヤー2：数字・記号・Windowsショートカット（Enter長押し中） */
+        /* レイヤー3：Froggy SYM（.長押し または Space+Enter同時押し：記号類） */
         symbol_layer {
-            label = "NUMSYM";
+            label = "SYM";
             bindings = <
-                       /* 1        2        3        4        5         ー(¥) */
-                       &kp N1     &kp N2   &kp N3   &kp N4   &kp N5    &kp JP_YEN
-                       /* 6        7        8        9        0         ・(/) */
-                       &kp N6     &kp N7   &kp N8   &kp N9   &kp N0    &kp LS(SLASH)
-                       /* 戻す     コピー   貼付     ー(¥)    （        ） */
-                       &kp LC(Z)  &kp LC(C) &kp LC(V) &kp JP_YEN &kp JP_LPAREN &kp JP_RPAREN
-            /* 半/全 */
-            &kp JP_HANZEN &kp LA(LEFT) &kp LC(W) &kp LS(COMMA) &kp LS(DOT) &kp LS(SLASH) &kp EXCLAMATION
-                       &trans     &trans                     &mo FUN   &kp LGUI
+                       &trans     &trans    &trans    &trans    &trans    &trans
+                       &kp EXCLAMATION &kp JP_AT &kp HASH &kp DOLLAR &kp PERCENT &kp JP_CARET
+                       &kp JP_AMPERSAND &kp JP_LPAREN &kp JP_RPAREN &kp JP_LBRACKET &kp JP_RBRACKET &kp JP_YEN
+            &trans     &kp JP_UNDERSCORE &kp JP_LBRACE &kp JP_RBRACE &kp LESS_THAN &kp GREATER_THAN &kp JP_PIPE
+                       &trans     &trans                        &trans    &trans
             >;
         };
 
-        /* レイヤー3：矢印・ファンクション・Bluetooth（Space＋Enter同時押し、またはL2＋右下1） */
+        /* レイヤー4：FUN・Bluetooth・Windowsショートカット（,長押し中） */
         function_layer {
-            label = "FUNNAV";
+            label = "FUN";
             bindings = <
-                       &kp F2      &kp F5        &kp F7          &kp F10       &kp F11  &kp F12
-                       &kp HOME    &kp UP        &kp END         &kp PG_UP     &trans   &trans
-                       &kp LEFT    &kp DOWN      &kp RIGHT       &kp PG_DN     &trans   &trans
-            &trans     &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2  &trans   &trans
+                       &kp F1      &kp F2        &kp F3          &kp F4        &kp F5   &kp F6
+                       &kp F7      &kp F8        &kp F9          &kp F10       &kp F11  &kp F12
+                       &kp LC(Z)   &kp LC(X)     &kp LC(C)       &kp LC(V)     &kp LC(A) &trans
+            &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2    &trans        &trans   &trans
                        &trans      &trans                                      &trans   &trans
             >;
         };
 
-        /* レイヤー4：オートマウス（ボール操作で自動有効） */
+        /* レイヤー5：オートマウス（ボール操作で自動有効） */
         mouse_layer {
             label = "MOUSE";
             bindings = <
@@ -142,7 +152,7 @@
             >;
         };
 
-        /* レイヤー5：スクロール（マウスレイヤー中にK位置を長押しでボールがスクロール化） */
+        /* レイヤー6：スクロール（マウスレイヤー中に中指位置を長押し） */
         scroll_layer {
             label = "SCROLL";
             bindings = <
@@ -154,7 +164,7 @@
             >;
         };
 
-        /* レイヤー6：スナイプ */
+        /* レイヤー7：スナイプ */
         snipe_layer {
             label = "SNIPE";
             bindings = <
@@ -168,15 +178,16 @@
     };
 };
 
+/* レイヤー番号を 5 (MOUSE) / 6 (SCROLL) に合わせて更新 */
 &mouse_runtime_input_processor {
     temp-layer-enabled;
-    temp-layer = <4>;
+    temp-layer = <5>;
     temp-layer-activation-delay-ms = <200>;
     temp-layer-deactivation-delay-ms = <400>;
 };
 
 &scroll_runtime_input_processor {
-    active-layers = <BIT(5)>;
+    active-layers = <BIT(6)>;
     x-codes = <INPUT_REL_X>;
     y-codes = <INPUT_REL_Y>;
     xy-to-scroll-enabled;
