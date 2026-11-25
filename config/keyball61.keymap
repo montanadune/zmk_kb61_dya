@@ -73,11 +73,11 @@
         number_layer {
             label = "NUM";
             bindings = <
-                    &kp N1    &kp N2    &kp N3    &kp N4     &kp N5  &trans
-                    &trans    &trans    &trans    &trans     &trans  &trans
-                    &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &trans  &trans
-            &trans  &trans    &trans    &trans    &trans     &trans  &trans
-            &trans  &trans                                   &trans  &trans
+                   &kp ESCAPE  &kp F2  &kp F4    &kp F5  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS
+                   &kp Q       &trans  &kp E     &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET
+                   &kp B       &kp J   &kp F     &kp L   &kp SLASH             &trans
+            &kp X  &trans      &kp X   &kp C     &kp V   &trans                &kp RIGHT_SHIFT
+            &kp C  &kp Y                                 &trans                &kp RCTRL
             >;
         };
 
