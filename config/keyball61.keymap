@@ -143,7 +143,7 @@
             bindings = <
                        &bootloader    &trans     &trans        &trans     &trans     &bt BT_CLR_ALL
                        &trans         &trans     &trans        &trans     &trans     &trans
-                       &kp PAGE_UP    &mkp LCLK  &mo SCROLL    &mkp RCLK  &mkp MCLK  &trans
+                       &kp PAGE_UP    &trans     &mo SCROLL    &mkp MCLK  &mkp LCLK  &mkp RCLK
             &mkp LCLK  &kp PAGE_DOWN  &trans     &trans        &trans     &trans     &trans
             &trans     &mo FUN                                            &trans     &trans
             >;
