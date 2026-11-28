@@ -1,6 +1,17 @@
-# test env manifest to setup dependencies under <west topdir>
-# should be initialized with cd repo && west init -l . --mf config/west.yml
 manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com
+    - name: cormoran
+      url-base: https://github.com
+  projects:
+    - name: zmk
+      remote: cormoran
+      revision: main+custom-studio-protocol
+      import:
+        file: app/west.yml
+    - name: zmk-module-ble-management
+      remote: cormoran
+      revision: main
   self:
     path: config
-    import: west-dependency.yml
