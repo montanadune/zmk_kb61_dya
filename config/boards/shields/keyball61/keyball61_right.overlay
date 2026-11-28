@@ -11,9 +11,13 @@
 };
 
 / {
-    chosen {
+  chosen {
         zmk,kscan = &kscan_duplex;
-        zmk,battery = &vbatt;
+        zmk,battery = &vbatt_vddh;
+    };
+
+    vbatt_vddh: vbatt_vddh {
+        compatible = "zmk,battery-nrf-vddh";
     };
 
     kscan_duplex: kscan_duplex {
